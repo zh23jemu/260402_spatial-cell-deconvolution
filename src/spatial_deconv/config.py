@@ -30,6 +30,10 @@ DATASETS = {
     },
 }
 
+# 说明：
+# 这里沿用数据包中已有的 sc_path 命名，但在项目语义上它表示 reference data path。
+# 当前默认参考数据是单细胞 RNA-seq；后续也可以替换为更高分辨率的参考表达数据。
+
 
 def ensure_output_dirs() -> None:
     for subdir in [
