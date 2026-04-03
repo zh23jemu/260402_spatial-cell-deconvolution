@@ -1,0 +1,51 @@
+[Fri Apr  3 07:22:52 CEST 2026] project dir: /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution
+[Fri Apr  3 07:22:52 CEST 2026] python: /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/.venv/bin/python
+[Fri Apr  3 07:22:52 CEST 2026] device: cpu
+[Fri Apr  3 07:22:52 CEST 2026] inspect dataset
+{
+  "dataset": "human_lymph_node",
+  "sc_shape": [
+    73260,
+    10237
+  ],
+  "st_shape": [
+    4035,
+    36588
+  ],
+  "label_column": "cell_type",
+  "n_cell_types": 34,
+  "top_cell_types": {
+    "B_mem": 13476,
+    "B_naive": 8924,
+    "T_CD4+_naive": 6012,
+    "B_Cycling": 4765,
+    "T_CD4+_TfH": 4690,
+    "T_CD8+_cytotoxic": 3890,
+    "T_CD4+_TfH_GC": 3653,
+    "B_activated": 3575,
+    "B_GC_LZ": 3298,
+    "T_CD4+": 3059
+  },
+  "coords_shape": [
+    4035,
+    2
+  ],
+  "annotation_columns": [
+    "Barcode",
+    "GC",
+    "cell_type"
+  ]
+}
+[Fri Apr  3 07:23:02 CEST 2026] train mlp
+模型已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/models/human_lymph_node_mlp.pt
+验证指标已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/metrics/human_lymph_node_mlp_validation.csv
+[Fri Apr  3 07:23:51 CEST 2026] train spatial gcn
+模型已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/models/human_lymph_node_spatial_gcn.pt
+验证指标已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/metrics/human_lymph_node_spatial_gcn_validation.csv
+[Fri Apr  3 07:24:04 CEST 2026] inference mlp
+预测结果已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/predictions/human_lymph_node_mlp_predictions.csv
+空间图已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/figures/human_lymph_node_mlp
+[Fri Apr  3 07:24:16 CEST 2026] inference spatial gcn
+预测结果已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/predictions/human_lymph_node_spatial_gcn_predictions.csv
+空间图已保存到 /net/8k3/e0fs01/users/xj62kv/260402_spatial-cell-deconvolution/outputs/figures/human_lymph_node_spatial_gcn
+[Fri Apr  3 07:24:27 CEST 2026] done
