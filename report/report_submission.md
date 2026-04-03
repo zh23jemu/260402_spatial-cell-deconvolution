@@ -231,28 +231,49 @@ Spatial GCN 在 [src/spatial_deconv/models/gcn.py](C:/Coding/260402_spatial-cell
 当前仓库中已经生成了第一轮可用结果，包括：
 
 - [outputs/metrics/human_lymph_node_spatial_gcn_validation.csv](C:/Coding/260402_spatial-cell-deconvolution/outputs/metrics/human_lymph_node_spatial_gcn_validation.csv)
+- [outputs/metrics/human_lymph_node_mlp_validation.csv](C:/Coding/260402_spatial-cell-deconvolution/outputs/metrics/human_lymph_node_mlp_validation.csv)
 - [outputs/metrics/simulated_seqfish_mlp_validation.csv](C:/Coding/260402_spatial-cell-deconvolution/outputs/metrics/simulated_seqfish_mlp_validation.csv)
+- [outputs/predictions/human_lymph_node_mlp_predictions.csv](C:/Coding/260402_spatial-cell-deconvolution/outputs/predictions/human_lymph_node_mlp_predictions.csv)
 - [outputs/predictions/human_lymph_node_spatial_gcn_predictions.csv](C:/Coding/260402_spatial-cell-deconvolution/outputs/predictions/human_lymph_node_spatial_gcn_predictions.csv)
+- [outputs/figures/human_lymph_node_mlp](C:/Coding/260402_spatial-cell-deconvolution/outputs/figures/human_lymph_node_mlp)
 - [outputs/figures/human_lymph_node_spatial_gcn](C:/Coding/260402_spatial-cell-deconvolution/outputs/figures/human_lymph_node_spatial_gcn)
 
 这些结果证明系统已经能够稳定完成训练、推理和可视化闭环。
 
+在 Human Lymph Node 数据集上的一轮对比实验结果如下：
+
+| 模型 | MAE | RMSE | PCC |
+|---|---:|---:|---:|
+| MLP-only | 0.0443 | 0.1128 | 0.4228 |
+| Spatial GCN | 0.0542 | 0.1251 | 0.0767 |
+| NNLS | 0.0536 | 0.1493 | 0.1407 |
+
+从这组结果可以看出，当前实验设置下 `MLP-only` 是表现最好的模型，因此后续真实数据空间图展示以 `MLP` 推理结果为主。
+
 ### 7.2 结果解释思路
 
-在正式撰写最终提交版时，建议按照以下逻辑解释实验结果：
+结合当前真实实验结果，可以按照以下逻辑解释：
 
-1. 先比较 NNLS 与 MLP-only，说明深度模型对非线性混合关系有更强拟合能力
-2. 再比较 MLP-only 与 Spatial GCN，说明空间邻域约束有助于提高局部组织结构一致性
-3. 对 Human Lymph Node 的空间图进行分析，说明某些免疫细胞亚群在局部区域呈现富集
-4. 对 Simulated seqFISH+ 的结果强调其主要用于流程验证和辅助定量，而不应过度解读其空间结构意义
+1. 先比较 NNLS 与 MLP-only。可以看到 `MLP-only` 在 `MAE`、`RMSE` 和 `PCC` 三个指标上均优于 `NNLS`，说明深度模型相较传统线性解卷积基线更能拟合复杂的混合表达关系。
+2. 再比较 MLP-only 与 Spatial GCN。当前实现下 `Spatial GCN` 未能超过 `MLP-only`，说明空间信息并不是简单加入后就一定带来性能提升，图结构设计和训练策略仍需进一步优化。
+3. 对 Human Lymph Node 的空间图进行分析时，建议优先展示 `MLP` 的推理结果，将其作为当前版本的主结果图。
+4. 对 `Spatial GCN` 的空间图则可作为扩展分析，用于说明模型探索方向以及当前空间模块的局限性。
+5. 对 Simulated seqFISH+ 的结果强调其主要用于流程验证和辅助定量，而不应过度解读其空间结构意义。
+
+建议在正文中将结果展示重点固定为：
+
+- 主定量结果表：`Human Lymph Node` 上的 `MLP-only`、`Spatial GCN` 与 `NNLS` 对比
+- 主可视化结果：`Human Lymph Node` 上 `MLP-only` 生成的空间热图
+- 补充实验：`Simulated seqFISH+` 上的初步结果，仅用于说明流程在第二个数据集上也能运行
 
 ### 7.3 预期现象
 
-从方法设计上看，预期会出现以下现象：
+当前实验已经观察到以下现象：
 
-- Spatial GCN 在模拟集上相较 MLP-only 获得更低的误差或更高的相关性
-- Human Lymph Node 的空间图会呈现一定区域性富集模式
-- NNLS 的表现通常稳定，但对复杂非线性混合的拟合能力弱于深度模型
+- `MLP-only` 在当前参数设置下取得了最佳验证性能，是当前最适合展示的主模型
+- `NNLS` 的误差和相关性均弱于 `MLP-only`，说明传统线性基线存在表达非线性拟合不足的问题
+- `Spatial GCN` 当前表现不理想，提示随机 pseudo-spot 坐标与简化图构造方式可能不足以支撑空间模块学习到有效的空间先验
+- Human Lymph Node 的真实推理结果已经成功生成空间图，可用于展示不同细胞类型在组织中的分布差异
 
 ## 8. 讨论
 
@@ -262,6 +283,7 @@ Spatial GCN 在 [src/spatial_deconv/models/gcn.py](C:/Coding/260402_spatial-cell
 - 同时利用表达信息与空间位置信息
 - 可扩展性较强，后续可接更复杂 GNN 或域适配模块
 - 已经能够在真实数据上生成比例矩阵和空间热图
+- 已经在真实数据上完成 `NNLS`、`MLP-only` 和 `Spatial GCN` 的可重复对比
 
 ### 8.2 当前局限
 
@@ -269,6 +291,8 @@ Spatial GCN 在 [src/spatial_deconv/models/gcn.py](C:/Coding/260402_spatial-cell
 - Simulated seqFISH+ 缺少真实坐标，采用了规则网格回退
 - 去批次和跨平台能力目前仅为轻量级扩展接口，未做完整论文级实现
 - 当前实验仍以小规模快速验证为主，若要进一步提高结果可信度，需要增加训练轮数和重复实验次数
+- 当前 `Spatial GCN` 未超过 `MLP-only`，说明空间模块还需要更真实的空间监督设计和更合理的图构造策略
+- `Simulated seqFISH+` 上当前仅完成了 `MLP` 初步实验，尚未形成与主数据集同等完整的三模型对比
 
 ### 8.3 后续改进方向
 
@@ -290,7 +314,28 @@ Spatial GCN 在 [src/spatial_deconv/models/gcn.py](C:/Coding/260402_spatial-cell
 
 ## 9. 结论
 
-本项目完成了一个面向空间转录组细胞解卷积任务的深度学习课程原型，实现了从数据读取、预处理、监督样本构造、模型训练到真实数据推理与空间可视化的完整流程。结果表明，该原型能够输出 spot 级细胞比例和空间热图，满足“代码 + 实验报告”的基本交付要求。尽管当前版本在跨平台对齐和去批次方面仍然采取了轻量方案，但系统框架已经为后续扩展打下了基础，适合作为课程项目、毕设前期原型或后续论文复现的起点。
+本项目完成了一个面向空间转录组细胞解卷积任务的深度学习课程原型，实现了从数据读取、预处理、监督样本构造、模型训练到真实数据推理与空间可视化的完整流程。结果表明，该原型能够输出 spot 级细胞比例和空间热图，满足“代码 + 实验报告”的基本交付要求。在当前实验设置下，`MLP-only` 模型取得了最佳验证性能，优于 `NNLS` 与当前实现的 `Spatial GCN`；这说明深度表达建模已经能够有效提升解卷积效果，同时也表明空间信息建模仍需进一步优化。尽管当前版本在跨平台对齐和去批次方面仍然采取了轻量方案，但系统框架已经为后续扩展打下了基础，适合作为课程项目、毕设前期原型或后续论文复现的起点。
+
+## 10. 最终提交建议
+
+建议最终提交材料按以下组合组织：
+
+- 代码部分：
+  - `src/`
+  - `scripts/`
+  - `pyproject.toml`
+  - `README.md`
+- 数据结果部分：
+  - `outputs/metrics/human_lymph_node_mlp_validation.csv`
+  - `outputs/metrics/human_lymph_node_spatial_gcn_validation.csv`
+  - `outputs/predictions/human_lymph_node_mlp_predictions.csv`
+  - `outputs/figures/human_lymph_node_mlp/` 中的主图
+- 文档部分：
+  - 本报告
+  - 任务书
+  - 需求说明
+
+如果篇幅有限，优先突出 `Human Lymph Node` 主实验结果，并将 `Simulated seqFISH+` 作为附录或补充说明。
 
 ## 附录：运行命令
 
