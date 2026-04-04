@@ -35,7 +35,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="训练解卷积模型。")
     parser.add_argument("--dataset", default="human_lymph_node")
     parser.add_argument("--model", choices=["mlp", "spatial_gcn"], default="spatial_gcn")
-    parser.add_argument("--epochs", type=int, default=30)
+    parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--num-spots", type=int, default=4000)
     parser.add_argument("--max-sc-cells", type=int, default=15000)
     parser.add_argument("--use-mmd", action="store_true")

@@ -12,8 +12,9 @@ def save_training_curve(history: list[dict[str, float]], output_path: Path) -> N
     train_loss = [item["train_loss"] for item in history]
     val_loss = [item["val_loss"] for item in history]
     plt.figure(figsize=(6, 4))
-    plt.plot(epochs, train_loss, label="train")
-    plt.plot(epochs, val_loss, label="val")
+    # Add markers so single-epoch runs are still visible.
+    plt.plot(epochs, train_loss, label="train", marker="o")
+    plt.plot(epochs, val_loss, label="val", marker="o")
     plt.xlabel("epoch")
     plt.ylabel("loss")
     plt.legend()

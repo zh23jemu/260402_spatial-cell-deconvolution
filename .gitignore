@@ -2,3 +2,4 @@
 /Data/
 *.pdf
 __pycache__/
+src/spatial_deconv/data/__pycache__/

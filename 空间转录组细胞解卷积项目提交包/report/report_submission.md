@@ -260,7 +260,7 @@ python scripts/run_inference.py --dataset human_lymph_node --checkpoint outputs/
 正式实验可通过以下命令运行：
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\run_experiments.py --datasets human_lymph_node simulated_seqfish --models nnls mlp spatial_gcn --epochs 8 --num-spots 1200 --max-sc-cells 6000
+.\.venv\Scripts\python.exe scripts\run_experiments.py --datasets human_lymph_node simulated_seqfish --models nnls mlp spatial_gcn --epochs 10 --num-spots 1200 --max-sc-cells 6000
 ```
 
 实验结果会自动输出到：
@@ -399,13 +399,13 @@ python scripts/run_inference.py --dataset human_lymph_node --checkpoint outputs/
 ### C. 训练单模型
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\train_model.py --dataset human_lymph_node --model spatial_gcn --epochs 30
+.\.venv\Scripts\python.exe scripts\train_model.py --dataset human_lymph_node --model spatial_gcn --epochs 10 --num-spots 1000 --max-sc-cells 6000 --device cpu
 ```
 
 ### D. 运行正式实验
 
 ```powershell
-.\.venv\Scripts\python.exe scripts\run_experiments.py --datasets human_lymph_node simulated_seqfish --models nnls mlp spatial_gcn --epochs 8 --num-spots 1200 --max-sc-cells 6000
+.\.venv\Scripts\python.exe scripts\run_experiments.py --datasets human_lymph_node simulated_seqfish --models nnls mlp spatial_gcn --epochs 10 --num-spots 1200 --max-sc-cells 6000
 ```
 
 ### E. 推理与导图

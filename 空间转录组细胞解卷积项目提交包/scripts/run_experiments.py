@@ -144,7 +144,7 @@ def main() -> None:
         nargs="+",
         default=["nnls", "mlp", "spatial_gcn"],
     )
-    parser.add_argument("--epochs", type=int, default=8)
+    parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--num-spots", type=int, default=1200)
     parser.add_argument("--max-sc-cells", type=int, default=6000)
     parser.add_argument("--device", default="cpu")
